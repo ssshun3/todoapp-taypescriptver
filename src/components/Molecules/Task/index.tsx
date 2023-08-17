@@ -6,15 +6,22 @@ import Checkbox from "../../Atoms/Checkbox";
 import EditButton from "../../Atoms/EditButton";
 import Input from "../../Atoms/Input";
 
+interface TaskProps {
+  onTaskNameChange: (value: string) => void;
+  onTaskComplete: () => void;
+  taskName?: string;
+  defaultIsEditing?: boolean;
+}
+
 const Task = ({
   onTaskNameChange,
   onTaskComplete,
   taskName = "",
   defaultIsEditing = false,
-}) => {
+}: TaskProps) => {
   const [isEditing, setIsEditing] = useState(defaultIsEditing);
 
-  const onEditComplete = value => {
+  const onEditComplete = (value: string) => {
     setIsEditing(false);
     onTaskNameChange(value);
   };
@@ -41,6 +48,7 @@ const Task = ({
     </StyledWrapper>
   );
 };
+
 export default Task;
 
 const StyledWrapper = styled.div`
