@@ -3,16 +3,25 @@ import styled from "styled-components";
 import COLOR from "../../../variables/color";
 import TEXT from "../../../variables/texts";
 
-const Alert = ({ visible, errorText }) => {
+interface AlertProps {
+  visible: boolean;
+  errorText: string;
+}
+
+const Alert = ({ visible, errorText }: AlertProps) => {
   return (
-    <StyledContent visible={visible}>
+    <StyledContent $visible={visible}>
       <StyledText>{errorText}</StyledText>
     </StyledContent>
   );
 };
 export default Alert;
 
-const StyledContent = styled.div`
+interface StyledContentProps {
+  $visible: boolean;
+}
+
+const StyledContent = styled.div<StyledContentProps>`
   position: absolute;
   left: 50%;
   top: 80px;
@@ -26,7 +35,7 @@ const StyledContent = styled.div`
   opacity: 0;
 
   ${props =>
-    props.visible &&
+    props.$visible &&
     `
     transform: translateX(-50%) translateY(0);
     opacity: 1;

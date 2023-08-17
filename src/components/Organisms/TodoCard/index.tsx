@@ -5,24 +5,34 @@ import COLOR from "../../../variables/color";
 import AddTaskButton from "../../Atoms/AddTaskButton";
 import Task from "../../Molecules/Task";
 
+interface TaskType {
+  name: string;
+  initializing: boolean;
+}
+
+interface AlertHandlerContextType {
+  setAlert: (errorText: string) => void;
+}
+
 const TodoCard = () => {
-  const [taskList, setTaskList] = useState([]);
-  const AlertHandlerContext = useAlertHandlerContext();
+  const [taskList, setTaskList] = useState<TaskType[]>([]);
+  const AlertHandlerContext =
+    useAlertHandlerContext() as AlertHandlerContextType;
 
   const onAddTaskButtonClick = () => {
-    const newTask = {
+    const newTask: TaskType = {
       name: "",
       initializing: true,
     };
     setTaskList(taskList.concat(newTask));
   };
 
-  const onTaskComplete = index => {
-    let newTaskList = taskList.filter((_, idx) => idx != index);
+  const onTaskComplete = (index: number) => {
+    let newTaskList = taskList.filter((_, idx) => idx !== index);
     setTaskList(newTaskList);
   };
 
-  const onTaskNameChange = (value, index) => {
+  const onTaskNameChange = (value: string, index: number) => {
     let newTaskList = [...taskList];
     if (value === "") {
       newTaskList.splice(index, 1);
@@ -37,7 +47,9 @@ const TodoCard = () => {
   };
 
   useEffect(() => {
-    const currentTaskList = JSON.parse(localStorage.getItem("tasklist"));
+    const currentTaskList = JSON.parse(
+      localStorage.getItem("tasklist") || "[]"
+    );
     if (currentTaskList === null) return;
     setTaskList(currentTaskList);
   }, []);
